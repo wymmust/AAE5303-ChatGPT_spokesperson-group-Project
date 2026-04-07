@@ -77,7 +77,8 @@ reconstruction/
 │   ├── amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply
 │   ├── amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply
 │   ├── amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply
-│   └── amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply
+│   ├── amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply
+│   └── amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply
 ├── baseline/
 └── third_party/
 ```
@@ -127,11 +128,11 @@ Recommended lightweight repository artifacts:
 
 ### Best selected reconstruction result on AMtown02
 
-- **Scene file:** `results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply`
-- **Iterations:** 30000
+- **Scene file:** `results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply`
+- **Iterations:** 40000
 - **Camera poses:** 65
-- **Vertices:** 4499683
-- **File size:** 446.29 MB
+- **Vertices:** 4798659
+- **File size:** 475.94 MB
 - **Input source:** `colmap_from_vo`
 - **Reason selected:** strongest final density among the tested VO-connected runs
 
@@ -154,7 +155,8 @@ The following table summarizes the VO-connected reconstruction progression used 
 | V2 | `colmap_from_vo` | `scene_gpu_safe_n15000_d3.ply` | 15000 | 65 | 2081187 | 206.42 | Density improves noticeably, but some areas are still limited by pose coverage. |
 | V3 | `colmap_from_vo` | `scene_gpu_safe_n20000_d3.ply` | 20000 | 65 | 2765440 | 274.28 | Stronger overall fill-in than 15000, suitable as a near-final version. |
 | V4 | `colmap_from_vo` | `scene_gpu_safe_n25000_d3.ply` | 25000 | 65 | 3555460 | 352.64 | Strong previous final version before the 30000 GPU run. |
-| V5 | `colmap_from_vo` | `scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 | Current selected version with the highest density among the compared runs. |
+| V5 | `colmap_from_vo` | `scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 | Strong result with a clear gain over 25000 and good cost-performance balance. |
+| V6 | `colmap_from_vo` | `scene_gpu_safe_n40000_d3.ply` | 40000 | 65 | 4798659 | 475.94 | Final selected version with the highest density among the compared runs. |
 
 ## Discussion
 
@@ -162,15 +164,23 @@ Several important observations can be drawn from the experiments:
 
 1. The richer COLMAP input produced the strongest reconstruction quality because it provides better camera coverage and more stable geometry.
 2. The VO-connected result successfully demonstrates the end-to-end connection from visual odometry to reconstruction, but its completeness is constrained by the smaller number of available poses.
-3. Increasing OpenSplat iterations from 10000 to 30000 consistently improved scene density in the VO-connected runs.
-4. The jump from 10000 to 15000 and then to 20000 is substantial, 25000 remains strong, and 30000 becomes the best final version among the tested settings.
+3. Increasing OpenSplat iterations from 10000 to 40000 consistently improved scene density in the VO-connected runs.
+4. The jump from 10000 to 15000 and then to 20000 is substantial, 25000 and 30000 remain strong, and 40000 becomes the best final version among the tested settings.
 5. Lightweight summaries are much more suitable for GitHub than uploading large `.ply` binaries directly.
+
+## Why We Stop At 40000
+
+We do not continue beyond 40000 iterations for three practical reasons:
+
+1. The gain from 30000 to 40000 is much smaller than the earlier gains from 10000 to 30000, which indicates diminishing returns.
+2. The output file already grows to **475.94 MB**, making local storage and artifact handling heavier while still not being suitable for direct GitHub upload.
+3. The project is being run on an **RTX 3050 Ti 4GB**, so 40000 is already close to a reasonable practical limit for stable experimentation on this setup.
 
 ## Recommended Final Configuration
 
 Based on the current experiments, the recommended final setting is:
 
-- **VO-connected reconstruction:** `colmap_from_vo` with 30000 iterations
+- **VO-connected reconstruction:** `colmap_from_vo` with 40000 iterations
 
 This version was selected because it best represents:
 
@@ -186,8 +196,8 @@ For module-specific documentation, see:
 ## Key Observations
 
 1. Better input camera coverage matters more than simply increasing optimizer iterations.
-2. The 30000-iteration VO-connected result is the primary result for final reporting in this module.
-3. The comparison should focus on the 10000, 15000, 20000, 25000, and 30000 iteration versions rather than mixing in the separate richer-input baseline result.
+2. The 40000-iteration VO-connected result is the primary result for final reporting in this module.
+3. The comparison should focus on the 10000, 15000, 20000, 25000, 30000, and 40000 iteration versions rather than mixing in the separate richer-input baseline result.
 4. GitHub documentation should focus on summaries, scripts, and metadata rather than large local scene binaries.
 
 ---

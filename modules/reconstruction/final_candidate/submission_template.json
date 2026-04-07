@@ -11,12 +11,12 @@
     "semantic_segmentation": "taiwanhaitong"
   },
   "selected_result": {
-    "scene_file": "results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
+    "scene_file": "results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply",
     "input_source": "colmap_from_vo",
-    "iterations": 30000,
+    "iterations": 40000,
     "camera_poses": 65,
-    "vertices": 4499683,
-    "size_mb": 446.29
+    "vertices": 4798659,
+    "size_mb": 475.94
   },
   "comparison_results": [
     {
@@ -53,7 +53,14 @@
       "camera_poses": 65,
       "vertices": 4499683,
       "size_mb": 446.29
+    },
+    {
+      "scene_file": "results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply",
+      "iterations": 40000,
+      "camera_poses": 65,
+      "vertices": 4798659,
+      "size_mb": 475.94
     }
   ],
-  "notes": "The repository-facing final reconstruction result is the 30000-iteration VO-connected version, compared against the 10000, 15000, 20000, and 25000 iteration runs."
+  "notes": "The repository-facing final reconstruction result is the 40000-iteration VO-connected version. The experiment stops here because the gain over 30000 is smaller while file size and runtime continue to increase on the 4GB GPU setup."
 }

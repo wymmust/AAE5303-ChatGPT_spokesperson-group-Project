@@ -1,6 +1,6 @@
 # Reconstruction Result Summary
 
-- Total outputs: 39
+- Total outputs: 40
 - Results directory: `/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results`
 
 ## Outputs
@@ -40,6 +40,7 @@
 | `amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply` | ply | 274.28 | 20000 | 2765440 |
 | `amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply` | ply | 352.64 | 25000 | 3555460 |
 | `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply` | ply | 446.29 | 30000 | 4499683 |
+| `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply` | ply | 475.94 | 40000 | 4798659 |
 | `amtown02_vo_refined_4000/scene_gpu_safe_n4000_d3.ply` | ply | 24.18 | 4000 | 243785 |
 | `amtown02_vo_refined_6000/scene_gpu_safe_n6000_d3.ply` | ply | 66.14 | 6000 | 666881 |
 | `amtown02_vo_refined_8000/scene_gpu_safe_n8000_d3.ply` | ply | 90.80 | 8000 | 915452 |
@@ -59,6 +60,7 @@
 | `amtown02_vo_refined_20000/cameras.json` | 65 |
 | `amtown02_vo_refined_25000/cameras.json` | 65 |
 | `amtown02_vo_refined_30000_gpu/cameras.json` | 65 |
+| `amtown02_vo_refined_40000_gpu/cameras.json` | 65 |
 | `amtown02_vo_refined_4000/cameras.json` | 65 |
 | `amtown02_vo_refined_6000/cameras.json` | 65 |
 | `amtown02_vo_refined_8000/cameras.json` | 65 |
@@ -68,6 +70,6 @@
 
 ## Recommended Files For Presentation
 
-- `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply`: the current best VO-connected GPU reconstruction result.
-- `amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply`: the previous selected version for direct comparison.
+- `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply`: the current best VO-connected GPU reconstruction result.
+- `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply`: the previous selected version for direct comparison.
 - `amtown02_gpu_final_2000.splat`: a compact GPU result suitable for lightweight viewers.

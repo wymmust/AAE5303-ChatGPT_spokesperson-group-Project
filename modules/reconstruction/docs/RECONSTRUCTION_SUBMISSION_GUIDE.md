@@ -30,11 +30,11 @@ Each final reconstruction result is described by:
 {
   "result_name": "vo_connected_reconstruction_final",
   "input_source": "colmap_from_vo",
-  "scene_file": "results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
-  "iterations": 30000,
+  "scene_file": "results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply",
+  "iterations": 40000,
   "camera_poses": 65,
-  "vertices": 4499683,
-  "size_mb": 446.29
+  "vertices": 4798659,
+  "size_mb": 475.94
 }
 ```
 
@@ -42,7 +42,7 @@ Each final reconstruction result is described by:
 
 ## 📈 Iteration Comparison Used In The Report
 
-The final report should compare the following five VO-connected runs:
+The final report should compare the following six VO-connected runs:
 
 | Version | Scene File | Iterations | Camera Poses | Vertices | Size (MB) |
 |--------|------------|-----------:|-------------:|---------:|----------:|
@@ -51,8 +51,9 @@ The final report should compare the following five VO-connected runs:
 | V3 | `results/amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply` | 20000 | 65 | 2765440 | 274.28 |
 | V4 | `results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply` | 25000 | 65 | 3555460 | 352.64 |
 | V5 | `results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 |
+| V6 | `results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply` | 40000 | 65 | 4798659 | 475.94 |
 
-Use `V5` as the final selected version in repository-facing documentation.
+Use `V6` as the final selected version in repository-facing documentation.
 
 ---
 
@@ -60,10 +61,11 @@ Use `V5` as the final selected version in repository-facing documentation.
 
 ### VO-connected reconstruction result progression
 
-- All four comparison runs use the same `colmap_from_vo` input with 65 camera poses.
+- All comparison runs use the same `colmap_from_vo` input with 65 camera poses.
 - The main variable is the total number of OpenSplat iterations.
 - Higher iteration counts consistently increase the final number of vertices and scene density.
-- The 30000-iteration version is the strongest final result among the compared runs.
+- The 40000-iteration version is the strongest final result among the compared runs.
+- The improvement from 30000 to 40000 is smaller than the earlier gains, so the experiment is stopped at 40000 instead of pushing to a much higher value on the same 4GB GPU.
 
 ---
 

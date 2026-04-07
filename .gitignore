@@ -45,3 +45,17 @@ temp/
 
 # Large raw/intermediate data
 data/
+
+# Reconstruction local assets and generated outputs
+modules/reconstruction/opensplat_cpu_src/
+modules/reconstruction/third_party/
+modules/reconstruction/baseline/
+modules/reconstruction/results/**/*.ply
+modules/reconstruction/results/**/*.splat
+modules/reconstruction/results/**/cameras.json
+modules/reconstruction/results/cameras.json
+
+# Keep lightweight summaries under version control
+!modules/reconstruction/results/RESULT_SUMMARY.md
+!modules/reconstruction/results/reconstruction_summary.json
+!modules/reconstruction/results/baseline_report.json

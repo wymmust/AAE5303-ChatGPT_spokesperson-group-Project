@@ -2,9 +2,9 @@
   "selected_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo",
   "selected_frames_used": 65,
   "selected_sparse_points": 11016,
-  "selected_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
-  "selected_iteration": 25000,
-  "selected_vertices": 3555460,
+  "selected_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
+  "selected_iteration": 30000,
+  "selected_vertices": 4499683,
   "vo_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo",
   "vo_frames_used": 65,
   "vo_sparse_points": 11016,
@@ -31,8 +31,13 @@
       "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
       "iteration": 25000,
       "vertices": 3555460
+    },
+    {
+      "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
+      "iteration": 30000,
+      "vertices": 4499683
     }
   ],
   "opensplat_status": "ready",
-  "notes": "The 25000-iteration VO-connected reconstruction is the selected final result, compared against the 10000, 15000, and 20000 iteration versions."
+  "notes": "The 30000-iteration VO-connected reconstruction is the selected final result, compared against the 10000, 15000, 20000, and 25000 iteration versions."
 }

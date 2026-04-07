@@ -30,11 +30,11 @@ Each final reconstruction result is described by:
 {
   "result_name": "vo_connected_reconstruction_final",
   "input_source": "colmap_from_vo",
-  "scene_file": "results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
-  "iterations": 25000,
+  "scene_file": "results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
+  "iterations": 30000,
   "camera_poses": 65,
-  "vertices": 3555460,
-  "size_mb": 352.64
+  "vertices": 4499683,
+  "size_mb": 446.29
 }
 ```
 
@@ -42,7 +42,7 @@ Each final reconstruction result is described by:
 
 ## 📈 Iteration Comparison Used In The Report
 
-The final report should compare the following four VO-connected runs:
+The final report should compare the following five VO-connected runs:
 
 | Version | Scene File | Iterations | Camera Poses | Vertices | Size (MB) |
 |--------|------------|-----------:|-------------:|---------:|----------:|
@@ -50,8 +50,9 @@ The final report should compare the following four VO-connected runs:
 | V2 | `results/amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply` | 15000 | 65 | 2081187 | 206.42 |
 | V3 | `results/amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply` | 20000 | 65 | 2765440 | 274.28 |
 | V4 | `results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply` | 25000 | 65 | 3555460 | 352.64 |
+| V5 | `results/amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 |
 
-Use `V4` as the final selected version in repository-facing documentation.
+Use `V5` as the final selected version in repository-facing documentation.
 
 ---
 
@@ -62,7 +63,7 @@ Use `V4` as the final selected version in repository-facing documentation.
 - All four comparison runs use the same `colmap_from_vo` input with 65 camera poses.
 - The main variable is the total number of OpenSplat iterations.
 - Higher iteration counts consistently increase the final number of vertices and scene density.
-- The 25000-iteration version is the strongest final result among the compared runs.
+- The 30000-iteration version is the strongest final result among the compared runs.
 
 ---
 

@@ -57,6 +57,25 @@ Use `V6` as the final selected version in repository-facing documentation.
 
 ---
 
+## 📊 Quantitative Trend Analysis
+
+The iteration study shows that the VO-connected reconstruction keeps getting denser as training continues, but the marginal gain gradually decreases.
+
+| Transition | Vertex Gain | Size Gain | Interpretation |
+|--------|------------:|----------:|----------------|
+| `10000 -> 15000` | 690274 | 68.47 MB | A large gain, showing that 10000 iterations were still under-trained for this VO input. |
+| `15000 -> 20000` | 684253 | 67.86 MB | Another strong gain, confirming that the reconstruction still benefits clearly from longer optimization. |
+| `20000 -> 25000` | 790020 | 78.36 MB | Density continues to improve substantially and the scene becomes much more complete visually. |
+| `25000 -> 30000` | 944223 | 93.65 MB | The largest absolute gain in this sequence, making 30000 a strong practical upgrade over 25000. |
+| `30000 -> 40000` | 298976 | 29.65 MB | Still an improvement, but clearly smaller than the earlier jumps, indicating diminishing returns. |
+
+Two patterns are important here:
+
+- The input stays fixed at **65 camera poses**, so the improvement comes from optimization depth rather than extra viewpoints.
+- Vertex count keeps increasing, but later iterations mainly improve density and fill-in rather than fundamentally changing scene coverage.
+
+---
+
 ## 💡 How to interpret the results
 
 ### VO-connected reconstruction result progression
@@ -66,6 +85,23 @@ Use `V6` as the final selected version in repository-facing documentation.
 - Higher iteration counts consistently increase the final number of vertices and scene density.
 - The 40000-iteration version is the strongest final result among the compared runs.
 - The improvement from 30000 to 40000 is smaller than the earlier gains, so the experiment is stopped at 40000 instead of pushing to a much higher value on the same 4GB GPU.
+
+### Result interpretation
+
+- The selected `40000`-iteration result is the best **VO-connected** reconstruction produced under the current input constraint.
+- Its main strength is local density growth across the same fixed set of camera poses.
+- Its main limitation is that missing viewpoints in the VO input cannot be recovered purely by running more iterations.
+- This is why the result improves steadily from 10000 to 40000, while the scene is still ultimately bounded by the upstream VO coverage.
+
+---
+
+## 🛑 Why The Experiment Stops At 40000
+
+We do not continue beyond 40000 iterations for three practical reasons:
+
+- The gain from 30000 to 40000 is much smaller than the earlier gains from 10000 to 30000, which indicates diminishing returns.
+- The output file already grows to **475.94 MB**, making local storage and artifact handling heavier while still not being suitable for direct GitHub upload.
+- The project is being run on an **RTX 3050 Ti 4GB**, so 40000 is already close to a reasonable practical limit for stable experimentation on this setup.
 
 ---
 

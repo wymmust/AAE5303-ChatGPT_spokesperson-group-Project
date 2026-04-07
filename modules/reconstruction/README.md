@@ -158,6 +158,34 @@ The following table summarizes the VO-connected reconstruction progression used 
 | V5 | `colmap_from_vo` | `scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 | Strong result with a clear gain over 25000 and good cost-performance balance. |
 | V6 | `colmap_from_vo` | `scene_gpu_safe_n40000_d3.ply` | 40000 | 65 | 4798659 | 475.94 | Final selected version with the highest density among the compared runs. |
 
+## Quantitative Trend Analysis
+
+The iteration study shows that the VO-connected reconstruction keeps getting denser as training continues, but the marginal gain gradually decreases.
+
+| Transition | Vertex Gain | Size Gain | Interpretation |
+|---|---:|---:|---|
+| `10000 -> 15000` | +690274 | +68.47 MB | A large gain, showing that 10000 iterations were still under-trained for this VO input. |
+| `15000 -> 20000` | +684253 | +67.86 MB | Another strong gain, confirming that the reconstruction still benefits clearly from longer optimization. |
+| `20000 -> 25000` | +790020 | +78.36 MB | Density continues to improve substantially and the scene becomes much more complete visually. |
+| `25000 -> 30000` | +944223 | +93.65 MB | The largest absolute gain in this sequence, making 30000 a strong practical upgrade over 25000. |
+| `30000 -> 40000` | +298976 | +29.65 MB | Still an improvement, but clearly smaller than the earlier jumps, indicating diminishing returns. |
+
+Two patterns are important here:
+
+1. The input stays fixed at **65 camera poses**, so the improvement comes from optimization depth rather than extra viewpoints.
+2. Vertex count keeps increasing, but later iterations mainly improve density and fill-in rather than fundamentally changing scene coverage.
+
+## Result Interpretation
+
+The selected `40000`-iteration result should be interpreted as the best **VO-connected** reconstruction produced under the current input constraint, not as the globally best possible reconstruction for AMtown02.
+
+In practical terms:
+
+1. It is the strongest end-to-end result because it starts from the VO pipeline output and still produces a dense final scene.
+2. Its main strength is local density growth across the same fixed set of camera poses.
+3. Its main limitation is that missing viewpoints in the VO input cannot be recovered purely by running more iterations.
+4. This is why the result improves steadily from 10000 to 40000, while the scene is still ultimately bounded by the upstream VO coverage.
+
 ## Discussion
 
 Several important observations can be drawn from the experiments:
@@ -166,7 +194,8 @@ Several important observations can be drawn from the experiments:
 2. The VO-connected result successfully demonstrates the end-to-end connection from visual odometry to reconstruction, but its completeness is constrained by the smaller number of available poses.
 3. Increasing OpenSplat iterations from 10000 to 40000 consistently improved scene density in the VO-connected runs.
 4. The jump from 10000 to 15000 and then to 20000 is substantial, 25000 and 30000 remain strong, and 40000 becomes the best final version among the tested settings.
-5. Lightweight summaries are much more suitable for GitHub than uploading large `.ply` binaries directly.
+5. The improvement from 30000 to 40000 is real but noticeably smaller than the earlier gains, which is why the analysis focuses on diminishing returns rather than only on raw vertex growth.
+6. Lightweight summaries are much more suitable for GitHub than uploading large `.ply` binaries directly.
 
 ## Why We Stop At 40000
 
@@ -175,6 +204,7 @@ We do not continue beyond 40000 iterations for three practical reasons:
 1. The gain from 30000 to 40000 is much smaller than the earlier gains from 10000 to 30000, which indicates diminishing returns.
 2. The output file already grows to **475.94 MB**, making local storage and artifact handling heavier while still not being suitable for direct GitHub upload.
 3. The project is being run on an **RTX 3050 Ti 4GB**, so 40000 is already close to a reasonable practical limit for stable experimentation on this setup.
+4. Under the same fixed VO input, running much longer is more likely to enlarge the artifact than to change the scene structure in a meaningful way.
 
 ## Result Files In This Module
 

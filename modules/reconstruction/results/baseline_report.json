@@ -1,0 +1,17 @@
+{
+  "main_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_amtown02",
+  "main_frames_used": 292,
+  "main_sparse_points": 35679,
+  "main_recommended_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_quality_balanced_6000.ply",
+  "main_recommended_iteration": 6000,
+  "main_recommended_vertices": 704292,
+  "compact_viewer_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_gpu_final_2000.splat",
+  "vo_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo",
+  "vo_frames_used": 65,
+  "vo_sparse_points": 11016,
+  "vo_generated_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
+  "vo_generated_iteration": 25000,
+  "vo_generated_vertices": 3555460,
+  "opensplat_status": "ready",
+  "notes": "Main reconstruction outputs and the latest VO-driven reconstruction output are available."
+}

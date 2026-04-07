@@ -80,7 +80,9 @@ These files are recommended for GitHub uploads because they preserve key metrics
 
 ---
 
-## ✅ Recommended GitHub-safe result files
+## 📂 Repository Result Files
+
+The following lightweight files are intended to stay in the repository:
 
 - `results/RESULT_SUMMARY.md`
 - `results/reconstruction_summary.json`

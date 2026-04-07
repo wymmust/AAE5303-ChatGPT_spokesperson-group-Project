@@ -114,9 +114,9 @@ From this module directory:
 python3 ./scripts/summarize_results.py
 ```
 
-### 3. Keep final artifacts
+### 3. Keep summary artifacts
 
-Recommended lightweight repository artifacts:
+The following files are the main lightweight artifacts tracked in this repository:
 
 - `results/RESULT_SUMMARY.md`
 - `results/reconstruction_summary.json`
@@ -175,6 +175,17 @@ We do not continue beyond 40000 iterations for three practical reasons:
 1. The gain from 30000 to 40000 is much smaller than the earlier gains from 10000 to 30000, which indicates diminishing returns.
 2. The output file already grows to **475.94 MB**, making local storage and artifact handling heavier while still not being suitable for direct GitHub upload.
 3. The project is being run on an **RTX 3050 Ti 4GB**, so 40000 is already close to a reasonable practical limit for stable experimentation on this setup.
+
+## Result Files In This Module
+
+The most important repository-visible files for this module are:
+
+- `results/baseline_report.json`
+- `results/reconstruction_summary.json`
+- `results/RESULT_SUMMARY.md`
+- `final_candidate/submission_template.json`
+
+These files keep the reconstruction result reproducible and easy to inspect without requiring large binary scene files to be committed into Git history.
 
 ## Recommended Final Configuration
 

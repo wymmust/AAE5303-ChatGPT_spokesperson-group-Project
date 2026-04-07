@@ -68,8 +68,8 @@
 | `amtown02_vo_safe/cameras.json` | 65 |
 | `cameras.json` | 292 |
 
-## Recommended Files For Presentation
+## Key Result Files
 
 - `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply`: the current best VO-connected GPU reconstruction result.
 - `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply`: the previous selected version for direct comparison.
-- `amtown02_gpu_final_2000.splat`: a compact GPU result suitable for lightweight viewers.
+- `amtown02_gpu_final_2000.splat`: a compact GPU result for lightweight viewing workflows.

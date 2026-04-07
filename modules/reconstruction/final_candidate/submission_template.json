@@ -10,19 +10,43 @@
     "reconstruction": "wymmust",
     "semantic_segmentation": "taiwanhaitong"
   },
-  "main_result": {
-    "scene_file": "results/amtown02_quality_balanced_6000.ply",
-    "iterations": 6000,
-    "camera_poses": 292,
-    "vertices": 704292,
-    "size_mb": 166.57
-  },
-  "vo_connected_result": {
+  "selected_result": {
     "scene_file": "results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
+    "input_source": "colmap_from_vo",
     "iterations": 25000,
     "camera_poses": 65,
     "vertices": 3555460,
     "size_mb": 352.64
   },
-  "notes": "Main reconstruction uses the richer COLMAP input, while the VO-connected reconstruction demonstrates the end-to-end pipeline using VO output."
+  "comparison_results": [
+    {
+      "scene_file": "results/amtown02_vo_refined_10000_fresh/scene_gpu_safe_n10000_d3.ply",
+      "iterations": 10000,
+      "camera_poses": 65,
+      "vertices": 1390913,
+      "size_mb": 137.95
+    },
+    {
+      "scene_file": "results/amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply",
+      "iterations": 15000,
+      "camera_poses": 65,
+      "vertices": 2081187,
+      "size_mb": 206.42
+    },
+    {
+      "scene_file": "results/amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply",
+      "iterations": 20000,
+      "camera_poses": 65,
+      "vertices": 2765440,
+      "size_mb": 274.28
+    },
+    {
+      "scene_file": "results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
+      "iterations": 25000,
+      "camera_poses": 65,
+      "vertices": 3555460,
+      "size_mb": 352.64
+    }
+  ],
+  "notes": "The repository-facing final reconstruction result is the 25000-iteration VO-connected version, compared against the 10000, 15000, and 20000 iteration runs."
 }

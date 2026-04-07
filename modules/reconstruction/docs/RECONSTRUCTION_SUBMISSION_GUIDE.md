@@ -8,8 +8,8 @@ Current input sources:
 
 | Input | Description |
 |-------|-------------|
-| `baseline/colmap_from_amtown02` | Richer COLMAP input used for the strongest reconstruction-quality result |
-| `baseline/colmap_from_vo` | VO-connected COLMAP input used to test the end-to-end group pipeline |
+| `baseline/colmap_from_amtown02` | Richer COLMAP input used as a reference-quality baseline |
+| `baseline/colmap_from_vo` | VO-connected COLMAP input used for the final end-to-end reconstruction comparison |
 
 ---
 
@@ -24,25 +24,11 @@ Each final reconstruction result is described by:
 - Vertex count
 - File size
 
-### Main reconstruction result
+### Final selected reconstruction result
 
 ```json
 {
-  "result_name": "main_reconstruction",
-  "input_source": "colmap_from_amtown02",
-  "scene_file": "results/amtown02_quality_balanced_6000.ply",
-  "iterations": 6000,
-  "camera_poses": 292,
-  "vertices": 704292,
-  "size_mb": 166.57
-}
-```
-
-### VO-connected reconstruction result
-
-```json
-{
-  "result_name": "vo_connected_reconstruction",
+  "result_name": "vo_connected_reconstruction_final",
   "input_source": "colmap_from_vo",
   "scene_file": "results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
   "iterations": 25000,
@@ -54,19 +40,29 @@ Each final reconstruction result is described by:
 
 ---
 
+## 📈 Iteration Comparison Used In The Report
+
+The final report should compare the following four VO-connected runs:
+
+| Version | Scene File | Iterations | Camera Poses | Vertices | Size (MB) |
+|--------|------------|-----------:|-------------:|---------:|----------:|
+| V1 | `results/amtown02_vo_refined_10000_fresh/scene_gpu_safe_n10000_d3.ply` | 10000 | 65 | 1390913 | 137.95 |
+| V2 | `results/amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply` | 15000 | 65 | 2081187 | 206.42 |
+| V3 | `results/amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply` | 20000 | 65 | 2765440 | 274.28 |
+| V4 | `results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply` | 25000 | 65 | 3555460 | 352.64 |
+
+Use `V4` as the final selected version in repository-facing documentation.
+
+---
+
 ## 💡 How to interpret the results
 
-### Main reconstruction result
+### VO-connected reconstruction result progression
 
-- Strongest result for scene quality
-- Better camera coverage
-- Better overall completeness
-
-### VO-connected reconstruction result
-
-- Strongest result for module integration
-- Uses fewer camera poses
-- More sensitive to upstream VO quality
+- All four comparison runs use the same `colmap_from_vo` input with 65 camera poses.
+- The main variable is the total number of OpenSplat iterations.
+- Higher iteration counts consistently increase the final number of vertices and scene density.
+- The 25000-iteration version is the strongest final result among the compared runs.
 
 ---
 

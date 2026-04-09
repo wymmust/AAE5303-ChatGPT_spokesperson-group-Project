@@ -8,6 +8,14 @@ import json
 import re
 from pathlib import Path
 
+CORRECTED_RESULT_PREFIXES = {
+    "amtown02_vo_amtown02_safe",
+    "amtown02_vo_amtown02_10000",
+    "amtown02_vo_amtown02_20000",
+    "amtown02_vo_amtown02_30000",
+    "amtown02_vo_amtown02_40000",
+}
+
 
 def main() -> int:
     args = parse_args()
@@ -47,10 +55,14 @@ def collect_summary(results_dir: Path) -> dict:
     for path in sorted(results_dir.rglob("*")):
         if path.suffix.lower() not in {".ply", ".splat"}:
             continue
+        if not should_include_path(results_dir, path):
+            continue
         outputs.append(read_output_metadata(results_dir, path))
 
     cameras = {}
     for path in sorted(results_dir.rglob("cameras.json")):
+        if not should_include_path(results_dir, path):
+            continue
         cameras[str(path.relative_to(results_dir))] = count_cameras(path)
 
     return {
@@ -59,6 +71,13 @@ def collect_summary(results_dir: Path) -> dict:
         "outputs": outputs,
         "camera_sets": cameras,
     }
+
+
+def should_include_path(results_dir: Path, path: Path) -> bool:
+    relative_parts = path.relative_to(results_dir).parts
+    if not relative_parts:
+        return False
+    return relative_parts[0] in CORRECTED_RESULT_PREFIXES
 
 
 def read_output_metadata(results_dir: Path, path: Path) -> dict:
@@ -153,6 +172,11 @@ def write_markdown(summary: dict, output_path: Path) -> None:
             "- `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`: the corrected AMtown02 rerun that displays reliably in PlayCanvas.",
             "- `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`: the raw longest corrected rerun kept for comparison and debugging.",
             "- `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply`: the smoke-test rerun proving that the corrected AMtown02 input is wired correctly.",
+            "",
+            "## Notes",
+            "",
+            "- This summary only lists the reruns generated after switching the VO-connected input back to the correct `AMtown02` dataset.",
+            "- Historical local outputs such as `amtown02_vo_refined_*`, `amtown02_quality_*`, and other earlier experiments are intentionally excluded from this GitHub-facing summary.",
         ]
     )
 

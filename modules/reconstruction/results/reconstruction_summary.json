@@ -1,6 +1,6 @@
 {
   "results_dir": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results",
-  "output_count": 5,
+  "output_count": 6,
   "outputs": [
     {
       "relative_path": "amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply",
@@ -27,6 +27,14 @@
       "vertex_count": 1922747
     },
     {
+      "relative_path": "amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply",
+      "file_name": "scene_gpu_safe_n35000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 202730379,
+      "iteration": 35000,
+      "vertex_count": 1949324
+    },
+    {
       "relative_path": "amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply",
       "file_name": "scene_gpu_safe_n40000_d3.ply",
       "file_type": "ply",
@@ -47,6 +55,7 @@
     "amtown02_vo_amtown02_10000/cameras.json": 622,
     "amtown02_vo_amtown02_20000/cameras.json": 622,
     "amtown02_vo_amtown02_30000/cameras.json": 622,
+    "amtown02_vo_amtown02_35000/cameras.json": 622,
     "amtown02_vo_amtown02_40000/cameras.json": 622,
     "amtown02_vo_amtown02_safe/cameras.json": 622
   }

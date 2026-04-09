@@ -1,6 +1,6 @@
 {
   "results_dir": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results",
-  "output_count": 40,
+  "output_count": 45,
   "outputs": [
     {
       "relative_path": "amtown02_baseline/probe_force_cuda.splat",
@@ -211,6 +211,46 @@
       "vertex_count": 704292
     },
     {
+      "relative_path": "amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply",
+      "file_name": "scene_gpu_safe_n10000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 134822227,
+      "iteration": 10000,
+      "vertex_count": 1296361
+    },
+    {
+      "relative_path": "amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply",
+      "file_name": "scene_gpu_safe_n20000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 139250547,
+      "iteration": 20000,
+      "vertex_count": 1338941
+    },
+    {
+      "relative_path": "amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply",
+      "file_name": "scene_gpu_safe_n30000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 199966371,
+      "iteration": 30000,
+      "vertex_count": 1922747
+    },
+    {
+      "relative_path": "amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply",
+      "file_name": "scene_gpu_safe_n40000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 188004291,
+      "iteration": 40000,
+      "vertex_count": 1807727
+    },
+    {
+      "relative_path": "amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply",
+      "file_name": "scene_gpu_safe_n500_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 5200679,
+      "iteration": 500,
+      "vertex_count": 50000
+    },
+    {
       "relative_path": "amtown02_vo_refined_10000/scene_gpu_resume_n10000_d3.ply",
       "file_name": "scene_gpu_resume_n10000_d3.ply",
       "file_type": "ply",
@@ -259,12 +299,28 @@
       "vertex_count": 3555460
     },
     {
+      "relative_path": "amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
+      "file_name": "scene_gpu_safe_n30000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 467967715,
+      "iteration": 30000,
+      "vertex_count": 4499683
+    },
+    {
       "relative_path": "amtown02_vo_refined_4000/scene_gpu_safe_n4000_d3.ply",
       "file_name": "scene_gpu_safe_n4000_d3.ply",
       "file_type": "ply",
       "size_bytes": 25354321,
       "iteration": 4000,
       "vertex_count": 243785
+    },
+    {
+      "relative_path": "amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply",
+      "file_name": "scene_gpu_safe_n40000_d3.ply",
+      "file_type": "ply",
+      "size_bytes": 499061219,
+      "iteration": 40000,
+      "vertex_count": 4798659
     },
     {
       "relative_path": "amtown02_vo_refined_6000/scene_gpu_safe_n6000_d3.ply",
@@ -305,39 +361,28 @@
       "size_bytes": 1141728,
       "iteration": null,
       "vertex_count": null
-    },
-    {
-      "relative_path": "amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply",
-      "file_name": "scene_gpu_safe_n30000_d3.ply",
-      "file_type": "ply",
-      "size_bytes": 467967715,
-      "iteration": 30000,
-      "vertex_count": 4499683
-    },
-    {
-      "relative_path": "amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply",
-      "file_name": "scene_gpu_safe_n40000_d3.ply",
-      "file_type": "ply",
-      "size_bytes": 499061219,
-      "iteration": 40000,
-      "vertex_count": 4798659
     }
   ],
   "camera_sets": {
     "amtown02_baseline/cameras.json": 292,
+    "amtown02_vo_amtown02_10000/cameras.json": 622,
+    "amtown02_vo_amtown02_20000/cameras.json": 622,
+    "amtown02_vo_amtown02_30000/cameras.json": 622,
+    "amtown02_vo_amtown02_40000/cameras.json": 622,
+    "amtown02_vo_amtown02_safe/cameras.json": 622,
     "amtown02_vo_refined_10000/cameras.json": 65,
     "amtown02_vo_refined_10000_fresh/cameras.json": 65,
     "amtown02_vo_refined_15000/cameras.json": 65,
     "amtown02_vo_refined_2000/cameras.json": 65,
     "amtown02_vo_refined_20000/cameras.json": 65,
     "amtown02_vo_refined_25000/cameras.json": 65,
+    "amtown02_vo_refined_30000_gpu/cameras.json": 65,
     "amtown02_vo_refined_4000/cameras.json": 65,
+    "amtown02_vo_refined_40000_gpu/cameras.json": 65,
     "amtown02_vo_refined_6000/cameras.json": 65,
     "amtown02_vo_refined_8000/cameras.json": 65,
     "amtown02_vo_refined_d2/cameras.json": 65,
     "amtown02_vo_safe/cameras.json": 65,
-    "cameras.json": 292,
-    "amtown02_vo_refined_30000_gpu/cameras.json": 65,
-    "amtown02_vo_refined_40000_gpu/cameras.json": 65
+    "cameras.json": 292
   }
 }

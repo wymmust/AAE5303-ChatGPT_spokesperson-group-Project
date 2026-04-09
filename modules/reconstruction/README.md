@@ -73,12 +73,11 @@ reconstruction/
 │   ├── RESULT_SUMMARY.md
 │   ├── reconstruction_summary.json
 │   ├── baseline_report.json
-│   ├── amtown02_vo_refined_10000_fresh/scene_gpu_safe_n10000_d3.ply
-│   ├── amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply
-│   ├── amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply
-│   ├── amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply
-│   ├── amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply
-│   └── amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply
+│   ├── amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply
+│   ├── amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply
+│   ├── amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply
+│   ├── amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply
+│   └── amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply
 ├── baseline/
 └── third_party/
 ```
@@ -108,13 +107,35 @@ From this module directory:
 ./scripts/run_opensplat.sh vo_safe
 ```
 
-### 2. Generate lightweight summaries
+### 2. Run corrected AMtown02 VO reruns
+
+The historical `colmap_from_vo` input in this repository points to an older local workspace and should not be used for the updated AMtown02 report.
+
+For the corrected reruns, use:
+
+```bash
+export LD_LIBRARY_PATH="/usr/lib/wsl/lib:/home/wym/libtorch-cu118-cxx11/lib:${LD_LIBRARY_PATH:-}"
+unset CUBLAS_WORKSPACE_CONFIG
+export CUDA_VISIBLE_DEVICES=0
+export LD_PRELOAD="/home/wym/libtorch-cu118-cxx11/lib/libcublas-3b81d170.so.11:/home/wym/libtorch-cu118-cxx11/lib/libcublasLt-b6d14a74.so.11:/home/wym/libtorch-cu118-cxx11/lib/libcudart-d0da41ae.so.11.0"
+
+./opensplat_cpu_src/build_cuda/opensplat \
+  ./baseline/colmap_from_vo_amtown02 \
+  -n 30000 \
+  -d 3 \
+  --num-downscales 4 \
+  --resolution-schedule 1200 \
+  --sh-degree 1 \
+  -o ./results/amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply
+```
+
+### 3. Generate lightweight summaries
 
 ```bash
 python3 ./scripts/summarize_results.py
 ```
 
-### 3. Keep summary artifacts
+### 4. Keep summary artifacts
 
 The following files are the main lightweight artifacts tracked in this repository:
 
@@ -126,15 +147,24 @@ The following files are the main lightweight artifacts tracked in this repositor
 
 ## Final Result
 
-### Best selected reconstruction result on AMtown02
+### Recommended GitHub / Viewer Result On AMtown02
 
-- **Scene file:** `results/amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply`
+- **Scene file:** `results/amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`
+- **Iterations:** 30000
+- **Camera poses:** 622
+- **Vertices:** 1922747
+- **File size:** 190.70 MB
+- **Input source:** `colmap_from_vo_amtown02`
+- **Reason selected:** corrected AMtown02 rerun with the strongest viewer-friendly result verified to display in PlayCanvas
+
+### Raw densest rerun kept for comparison
+
+- **Scene file:** `results/amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`
 - **Iterations:** 40000
-- **Camera poses:** 65
-- **Vertices:** 4798659
-- **File size:** 475.94 MB
-- **Input source:** `colmap_from_vo`
-- **Reason selected:** strongest final density among the tested VO-connected runs
+- **Camera poses:** 622
+- **Vertices:** 1807727
+- **File size:** 179.29 MB
+- **Status:** completed successfully but may appear blank in PlayCanvas due to extreme scale outliers in a small subset of splats
 
 These values are summarized in:
 
@@ -147,64 +177,61 @@ results/reconstruction_summary.json
 
 ## Experimental Results Comparison
 
-The following table summarizes the VO-connected reconstruction progression used for the final comparison in this module.
+The following table summarizes the corrected AMtown02 reruns generated from `baseline/colmap_from_vo_amtown02`.
 
 | Version | Input | Output | Iterations | Camera Poses | Vertices | Size (MB) | Notes |
 |---|---|---|---:|---:|---:|---:|---|
-| V1 | `colmap_from_vo` | `scene_gpu_safe_n10000_d3.ply` | 10000 | 65 | 1390913 | 137.95 | First clearly dense VO-connected result after switching back to a fresh full run. |
-| V2 | `colmap_from_vo` | `scene_gpu_safe_n15000_d3.ply` | 15000 | 65 | 2081187 | 206.42 | Density improves noticeably, but some areas are still limited by pose coverage. |
-| V3 | `colmap_from_vo` | `scene_gpu_safe_n20000_d3.ply` | 20000 | 65 | 2765440 | 274.28 | Stronger overall fill-in than 15000, suitable as a near-final version. |
-| V4 | `colmap_from_vo` | `scene_gpu_safe_n25000_d3.ply` | 25000 | 65 | 3555460 | 352.64 | Strong previous final version before the 30000 GPU run. |
-| V5 | `colmap_from_vo` | `scene_gpu_safe_n30000_d3.ply` | 30000 | 65 | 4499683 | 446.29 | Strong result with a clear gain over 25000 and good cost-performance balance. |
-| V6 | `colmap_from_vo` | `scene_gpu_safe_n40000_d3.ply` | 40000 | 65 | 4798659 | 475.94 | Final selected version with the highest density among the compared runs. |
+| V0 | `colmap_from_vo_amtown02` | `scene_gpu_safe_n500_d3.ply` | 500 | 622 | 50000 | 4.96 | Fast smoke test confirming the corrected AMtown02 input and CUDA setup. |
+| V1 | `colmap_from_vo_amtown02` | `scene_gpu_safe_n10000_d3.ply` | 10000 | 622 | 1296361 | 128.58 | First substantial corrected rerun after fixing the VO image source. |
+| V2 | `colmap_from_vo_amtown02` | `scene_gpu_safe_n20000_d3.ply` | 20000 | 622 | 1338941 | 132.80 | Slightly denser than 10000, but still under the later viewer-friendly run. |
+| V3 | `colmap_from_vo_amtown02` | `scene_gpu_safe_n30000_d3.ply` | 30000 | 622 | 1922747 | 190.70 | Best corrected rerun for GitHub and PlayCanvas presentation. |
+| V4 | `colmap_from_vo_amtown02` | `scene_gpu_safe_n40000_d3.ply` | 40000 | 622 | 1807727 | 179.29 | Completed successfully, but PlayCanvas may show a blank scene because of a few very large splat scales. |
 
 ## Quantitative Trend Analysis
 
-The iteration study shows that the VO-connected reconstruction keeps getting denser as training continues, but the marginal gain gradually decreases.
+The corrected AMtown02 reruns do not follow the same monotonic trend as the older legacy outputs.
 
 | Transition | Vertex Gain | Size Gain | Interpretation |
 |---|---:|---:|---|
-| `10000 -> 15000` | +690274 | +68.47 MB | A large gain, showing that 10000 iterations were still under-trained for this VO input. |
-| `15000 -> 20000` | +684253 | +67.86 MB | Another strong gain, confirming that the reconstruction still benefits clearly from longer optimization. |
-| `20000 -> 25000` | +790020 | +78.36 MB | Density continues to improve substantially and the scene becomes much more complete visually. |
-| `25000 -> 30000` | +944223 | +93.65 MB | The largest absolute gain in this sequence, making 30000 a strong practical upgrade over 25000. |
-| `30000 -> 40000` | +298976 | +29.65 MB | Still an improvement, but clearly smaller than the earlier jumps, indicating diminishing returns. |
+| `500 -> 10000` | +1246361 | +123.62 MB | The corrected input quickly becomes dense once the optimizer is allowed to run. |
+| `10000 -> 20000` | +42580 | +4.22 MB | Only a small gain, suggesting that 20000 is not materially different from 10000 for this corrected input. |
+| `20000 -> 30000` | +583806 | +57.90 MB | A clear improvement that produces the strongest viewer-friendly result. |
+| `30000 -> 40000` | -115020 | -11.41 MB | Vertex count drops and the viewer becomes unreliable, which makes 40000 less suitable for presentation. |
 
 Two patterns are important here:
 
-1. The input stays fixed at **65 camera poses**, so the improvement comes from optimization depth rather than extra viewpoints.
-2. Vertex count keeps increasing, but later iterations mainly improve density and fill-in rather than fundamentally changing scene coverage.
+1. The input stays fixed at **622 camera poses**, so the differences come from optimization depth rather than extra viewpoints.
+2. The best presentation result is not the numerically largest iteration count; `30000` is more stable than `40000` for the current viewer workflow.
 
 ## Result Interpretation
 
-The selected `40000`-iteration result should be interpreted as the best **VO-connected** reconstruction produced under the current input constraint, not as the globally best possible reconstruction for AMtown02.
+The selected `30000`-iteration result should be interpreted as the best corrected **VO-connected** reconstruction for repository sharing and browser-based viewing on AMtown02.
 
 In practical terms:
 
-1. It is the strongest end-to-end result because it starts from the VO pipeline output and still produces a dense final scene.
-2. Its main strength is local density growth across the same fixed set of camera poses.
-3. Its main limitation is that missing viewpoints in the VO input cannot be recovered purely by running more iterations.
-4. This is why the result improves steadily from 10000 to 40000, while the scene is still ultimately bounded by the upstream VO coverage.
+1. It starts from the corrected `colmap_from_vo_amtown02` input rather than the older local VO workspace.
+2. It preserves the best balance between density, file size, and PlayCanvas compatibility.
+3. The `40000` rerun is still useful as a raw experiment artifact, but not as the primary GitHub-facing result.
+4. Missing viewpoints in the VO input still cannot be recovered purely by running more iterations.
 
 ## Discussion
 
-Several important observations can be drawn from the experiments:
+Several important observations can be drawn from the corrected reruns:
 
-1. The richer COLMAP input produced the strongest reconstruction quality because it provides better camera coverage and more stable geometry.
-2. The VO-connected result successfully demonstrates the end-to-end connection from visual odometry to reconstruction, but its completeness is constrained by the smaller number of available poses.
-3. Increasing OpenSplat iterations from 10000 to 40000 consistently improved scene density in the VO-connected runs.
-4. The jump from 10000 to 15000 and then to 20000 is substantial, 25000 and 30000 remain strong, and 40000 becomes the best final version among the tested settings.
-5. The improvement from 30000 to 40000 is real but noticeably smaller than the earlier gains, which is why the analysis focuses on diminishing returns rather than only on raw vertex growth.
-6. Lightweight summaries are much more suitable for GitHub than uploading large `.ply` binaries directly.
+1. The historical `colmap_from_vo` path should not be used for updated AMtown02 reporting because it points to an older local image workspace.
+2. The corrected `colmap_from_vo_amtown02` reruns confirm that the pipeline itself works on AMtown02 once the image source is fixed.
+3. `30000` is the most useful GitHub-facing result because it displays correctly in PlayCanvas while still being substantially denser than the shorter reruns.
+4. `40000` finishes successfully but introduces a few very large splat scales, which is a practical viewer compatibility issue even though the file is numerically valid.
+5. Lightweight summaries are much more suitable for GitHub than uploading large `.ply` binaries directly.
 
-## Why We Stop At 40000
+## Why We Keep Both 30000 And 40000
 
-We do not continue beyond 40000 iterations for three practical reasons:
+We keep both reruns for different purposes:
 
-1. The gain from 30000 to 40000 is much smaller than the earlier gains from 10000 to 30000, which indicates diminishing returns.
-2. The output file already grows to **475.94 MB**, making local storage and artifact handling heavier while still not being suitable for direct GitHub upload.
-3. The project is being run on an **RTX 3050 Ti 4GB**, so 40000 is already close to a reasonable practical limit for stable experimentation on this setup.
-4. Under the same fixed VO input, running much longer is more likely to enlarge the artifact than to change the scene structure in a meaningful way.
+1. `30000` is the preferred presentation file because it is stable in PlayCanvas and still dense enough to show the scene clearly.
+2. `40000` is kept as the longest corrected AMtown02 rerun for raw comparison and debugging.
+3. The project is being run on an **RTX 3050 Ti 4GB**, so even these longer reruns are already a substantial local cost.
+4. The viewer issue at `40000` suggests that pushing even further is more likely to create splat outliers than a clearly better browser result.
 
 ## Result Files In This Module
 
@@ -219,14 +246,14 @@ These files keep the reconstruction result reproducible and easy to inspect with
 
 ## Recommended Final Configuration
 
-Based on the current experiments, the recommended final setting is:
+Based on the corrected AMtown02 reruns, the recommended final setting is:
 
-- **VO-connected reconstruction:** `colmap_from_vo` with 40000 iterations
+- **VO-connected reconstruction:** `colmap_from_vo_amtown02` with 30000 iterations for GitHub / viewer presentation
 
 This version was selected because it best represents:
 
-- The final end-to-end group pipeline result
-- The strongest density among the tested VO-connected versions
+- The corrected end-to-end AMtown02 pipeline result
+- The most reliable PlayCanvas-visible output among the tested reruns
 
 For module-specific documentation, see:
 
@@ -236,9 +263,9 @@ For module-specific documentation, see:
 
 ## Key Observations
 
-1. Better input camera coverage matters more than simply increasing optimizer iterations.
-2. The 40000-iteration VO-connected result is the primary result for final reporting in this module.
-3. The comparison should focus on the 10000, 15000, 20000, 25000, 30000, and 40000 iteration versions rather than mixing in the separate richer-input baseline result.
+1. Better input provenance matters before iteration tuning; correcting the AMtown02 image source changed the conclusion of the VO study.
+2. The `30000` corrected rerun is the primary result for GitHub-facing reporting in this module.
+3. The `40000` corrected rerun is useful as a raw artifact, but it is not the best browser-viewing deliverable.
 4. GitHub documentation should focus on summaries, scripts, and metadata rather than large local scene binaries.
 
 ---

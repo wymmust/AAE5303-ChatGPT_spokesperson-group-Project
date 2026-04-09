@@ -1,6 +1,6 @@
 # Reconstruction Result Summary
 
-- Total outputs: 40
+- Total outputs: 45
 - Results directory: `/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results`
 
 ## Outputs
@@ -33,6 +33,11 @@
 | `amtown02_quality_balanced_4000.ply` | ply | 166.57 | 4000 | 704292 |
 | `amtown02_quality_balanced_6000.ply` | ply | 166.57 | 6000 | 704292 |
 | `amtown02_quality_balanced_8000.ply` | ply | 166.57 | 8000 | 704292 |
+| `amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply` | ply | 128.58 | 10000 | 1296361 |
+| `amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply` | ply | 132.80 | 20000 | 1338941 |
+| `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply` | ply | 190.70 | 30000 | 1922747 |
+| `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply` | ply | 179.29 | 40000 | 1807727 |
+| `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply` | ply | 4.96 | 500 | 50000 |
 | `amtown02_vo_refined_10000/scene_gpu_resume_n10000_d3.ply` | ply | 90.80 | 2000 | 915452 |
 | `amtown02_vo_refined_10000_fresh/scene_gpu_safe_n10000_d3.ply` | ply | 137.95 | 10000 | 1390913 |
 | `amtown02_vo_refined_15000/scene_gpu_safe_n15000_d3.ply` | ply | 206.42 | 15000 | 2081187 |
@@ -40,8 +45,8 @@
 | `amtown02_vo_refined_20000/scene_gpu_safe_n20000_d3.ply` | ply | 274.28 | 20000 | 2765440 |
 | `amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply` | ply | 352.64 | 25000 | 3555460 |
 | `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply` | ply | 446.29 | 30000 | 4499683 |
-| `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply` | ply | 475.94 | 40000 | 4798659 |
 | `amtown02_vo_refined_4000/scene_gpu_safe_n4000_d3.ply` | ply | 24.18 | 4000 | 243785 |
+| `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply` | ply | 475.94 | 40000 | 4798659 |
 | `amtown02_vo_refined_6000/scene_gpu_safe_n6000_d3.ply` | ply | 66.14 | 6000 | 666881 |
 | `amtown02_vo_refined_8000/scene_gpu_safe_n8000_d3.ply` | ply | 90.80 | 8000 | 915452 |
 | `amtown02_vo_refined_d2/scene_gpu_safe_n1000_d2.ply` | ply | 1.09 | 1000 | 11016 |
@@ -53,6 +58,11 @@
 | File | Camera Count |
 | --- | ---: |
 | `amtown02_baseline/cameras.json` | 292 |
+| `amtown02_vo_amtown02_10000/cameras.json` | 622 |
+| `amtown02_vo_amtown02_20000/cameras.json` | 622 |
+| `amtown02_vo_amtown02_30000/cameras.json` | 622 |
+| `amtown02_vo_amtown02_40000/cameras.json` | 622 |
+| `amtown02_vo_amtown02_safe/cameras.json` | 622 |
 | `amtown02_vo_refined_10000/cameras.json` | 65 |
 | `amtown02_vo_refined_10000_fresh/cameras.json` | 65 |
 | `amtown02_vo_refined_15000/cameras.json` | 65 |
@@ -60,16 +70,22 @@
 | `amtown02_vo_refined_20000/cameras.json` | 65 |
 | `amtown02_vo_refined_25000/cameras.json` | 65 |
 | `amtown02_vo_refined_30000_gpu/cameras.json` | 65 |
-| `amtown02_vo_refined_40000_gpu/cameras.json` | 65 |
 | `amtown02_vo_refined_4000/cameras.json` | 65 |
+| `amtown02_vo_refined_40000_gpu/cameras.json` | 65 |
 | `amtown02_vo_refined_6000/cameras.json` | 65 |
 | `amtown02_vo_refined_8000/cameras.json` | 65 |
 | `amtown02_vo_refined_d2/cameras.json` | 65 |
 | `amtown02_vo_safe/cameras.json` | 65 |
 | `cameras.json` | 292 |
 
-## Key Result Files
+## Recommended Files For Presentation
 
-- `amtown02_vo_refined_40000_gpu/scene_gpu_safe_n40000_d3.ply`: the current best VO-connected GPU reconstruction result.
-- `amtown02_vo_refined_30000_gpu/scene_gpu_safe_n30000_d3.ply`: the previous selected version for direct comparison.
-- `amtown02_gpu_final_2000.splat`: a compact GPU result for lightweight viewing workflows.
+- `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`: the corrected AMtown02 rerun that displays reliably in PlayCanvas.
+- `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`: the raw longest corrected rerun kept for comparison and debugging.
+- `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply`: the smoke-test rerun proving that the corrected AMtown02 input is wired correctly.
+
+## Notes
+
+- The `amtown02_vo_amtown02_*` folders are the corrected AMtown02 reruns generated after fixing the VO image source.
+- The older `amtown02_vo_refined_*` folders are kept as historical local artifacts and should not be treated as the updated GitHub-facing AMtown02 result line.
+- For repository documentation and browser-based viewing, prefer `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`.

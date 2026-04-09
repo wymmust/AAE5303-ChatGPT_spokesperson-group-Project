@@ -150,9 +150,9 @@ def write_markdown(summary: dict, output_path: Path) -> None:
             "",
             "## Recommended Files For Presentation",
             "",
-            "- `amtown02_quality_balanced_6000.ply`: the best high-quality scene already available in the repository.",
-            "- `amtown02_gpu_final_2000.splat`: a compact GPU result suitable for lightweight viewers.",
-            "- `amtown02_vo_safe/scene_gpu_safe_n500_d3.ply`: the newly generated VO-driven reconstruction output.",
+            "- `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`: the corrected AMtown02 rerun that displays reliably in PlayCanvas.",
+            "- `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`: the raw longest corrected rerun kept for comparison and debugging.",
+            "- `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply`: the smoke-test rerun proving that the corrected AMtown02 input is wired correctly.",
         ]
     )
 

@@ -1,17 +1,38 @@
 {
-  "main_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_amtown02",
-  "main_frames_used": 292,
-  "main_sparse_points": 35679,
-  "main_recommended_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_quality_balanced_6000.ply",
-  "main_recommended_iteration": 6000,
-  "main_recommended_vertices": 704292,
-  "compact_viewer_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_gpu_final_2000.splat",
-  "vo_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo",
-  "vo_frames_used": 65,
-  "vo_sparse_points": 11016,
-  "vo_generated_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_refined_25000/scene_gpu_safe_n25000_d3.ply",
-  "vo_generated_iteration": 25000,
-  "vo_generated_vertices": 3555460,
+  "selected_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo_amtown02",
+  "selected_frames_used": 622,
+  "selected_sparse_points": 50000,
+  "selected_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply",
+  "selected_iteration": 30000,
+  "selected_vertices": 1922747,
+  "vo_colmap_project": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/baseline/colmap_from_vo_amtown02",
+  "vo_frames_used": 622,
+  "vo_sparse_points": 50000,
+  "vo_generated_scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply",
+  "vo_generated_iteration": 40000,
+  "vo_generated_vertices": 1807727,
+  "iteration_comparison": [
+    {
+      "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply",
+      "iteration": 10000,
+      "vertices": 1296361
+    },
+    {
+      "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply",
+      "iteration": 20000,
+      "vertices": 1338941
+    },
+    {
+      "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply",
+      "iteration": 30000,
+      "vertices": 1922747
+    },
+    {
+      "scene": "/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results/amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply",
+      "iteration": 40000,
+      "vertices": 1807727
+    }
+  ],
   "opensplat_status": "ready",
-  "notes": "Main reconstruction outputs and the latest VO-driven reconstruction output are available."
+  "notes": "The corrected 30000-iteration AMtown02 VO-connected rerun is the selected GitHub-facing result. The corrected 40000 rerun finishes successfully but is less reliable in PlayCanvas because of a few extreme splat scales."
 }

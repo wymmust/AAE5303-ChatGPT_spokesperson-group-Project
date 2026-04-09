@@ -4,7 +4,7 @@ This document is a practical checklist for AAE5303 students to avoid common pitf
 
 ---
 
-### 1) Use a valid COLMAP-format input
+### 1) Use the corrected AMtown02 COLMAP input
 
 OpenSplat expects:
 
@@ -13,23 +13,17 @@ OpenSplat expects:
 - `images.bin`
 - `points3D.bin`
 
-For this project, the two main inputs are:
+For the updated GitHub-facing reruns, use:
 
-- `baseline/colmap_from_amtown02`
-- `baseline/colmap_from_vo`
+- `baseline/colmap_from_vo_amtown02`
 
 If sparse points are missing, OpenSplat will not produce a valid reconstruction.
 
 ---
 
-### 2) Separate quality testing from integration testing
+### 2) Keep the input fixed during iteration comparison
 
-Use:
-
-- `colmap_from_amtown02` to evaluate reconstruction quality
-- `colmap_from_vo` to evaluate VO-to-reconstruction integration
-
-Do not expect the VO-connected result to match the richer reconstruction input if the VO pose coverage is much smaller.
+All corrected reruns should use the same `colmap_from_vo_amtown02` input so that the comparison only reflects iteration changes.
 
 ---
 
@@ -46,13 +40,13 @@ If your reconstruction is still incomplete, the bottleneck is often the input tr
 
 ---
 
-### 4) Prefer stable parameter settings once validated
+### 4) Prefer the stable corrected rerun setting
 
-For this repository, the most stable VO-connected configuration was:
+For this repository, the most stable corrected configuration is:
 
 ```bash
-./opensplat /path/to/colmap_from_vo \
-  -n 25000 \
+./opensplat /path/to/colmap_from_vo_amtown02 \
+  -n 35000 \
   -d 3 \
   --num-downscales 4 \
   --resolution-schedule 1200 \
@@ -60,7 +54,7 @@ For this repository, the most stable VO-connected configuration was:
   -o /path/to/output.ply
 ```
 
-This setting produced the strongest VO-connected result currently stored in the repository.
+This setting produces the selected corrected AMtown02 result currently used in the repository summary.
 
 ---
 

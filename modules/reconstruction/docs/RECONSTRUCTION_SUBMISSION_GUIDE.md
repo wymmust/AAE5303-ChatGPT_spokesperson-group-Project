@@ -4,47 +4,65 @@
 
 The reconstruction module uses COLMAP-format inputs and OpenSplat training.
 
-Current input sources:
-
 | Input | Description |
 |-------|-------------|
-| `baseline/colmap_from_vo_amtown02` | Corrected AMtown02 VO-connected COLMAP input used for the updated reruns |
+| `baseline/colmap_from_vo_amtown02` | Corrected AMtown02 VO-connected COLMAP project used for all VO OpenSplat runs (**622** registered cameras in `images.bin`) |
+| `baseline/colmap_from_amtown02` | **V7** / **方案 B** input: COLMAP baseline on a **292**-view AMtown02 subset; same **aggressive HQ2** OpenSplat recipe as **V6** (quality-ceiling / structured-baseline comparison). This snapshot: **35679** sparse points (VO export here: **50000**)—update counts if your local `images.bin` differs. |
+
+---
+
+## ✅ VO conservative vs aggressive HQ2: same camera count
+
+All VO deliverables **V0–V6** that use `colmap_from_vo_amtown02` share the **same 622 registered cameras** in `images.bin`. The **aggressive HQ2** final (V6) **did not add or remove training images** relative to the conservative sweep; **only OpenSplat hyperparameters** changed.
+
+---
+
+## 📌 Why “more PNG files” does not automatically mean “more OpenSplat training images” (FAQ)
+
+This is **background** for readers who expect the folder PNG count to equal training views. **It is not what differed between conservative and aggressive HQ2 on the VO line** (those share 622 registered views).
+
+OpenSplat only instantiates training cameras from **`images.bin`**. The AMtown02 image folder on disk currently contains on the order of **~7500** PNG files, but the VO COLMAP export lists **622** poses. Until additional frames are reconstructed inside COLMAP (or exported consistently from VO/SLAM into `images.bin`), OpenSplat cannot see them. This limitation is structural to the COLMAP pipeline, not an OpenSplat flag.
 
 ---
 
 ## 📊 Final Result Structure
 
-Each final reconstruction result is described by:
+Each reconstruction result is described by:
 
-- Input source
-- Iteration count
+- Input COLMAP project
+- OpenSplat profile (**conservative** vs **aggressive HQ2**)
+- Iteration count and checkpoint cadence
 - Output scene file
-- Camera pose count
-- Vertex count
-- File size
+- Camera pose count (from `images.bin`)
+- Vertex count and file size
 
-### Final selected reconstruction result
+### Final selected VO reconstruction result
 
 ```json
 {
-  "result_name": "vo_connected_reconstruction_corrected_amtown02",
+  "result_name": "vo_connected_reconstruction_aggressive_hq2_amtown02",
   "input_source": "colmap_from_vo_amtown02",
-  "scene_file": "results/amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply",
+  "opensplat_profile": "aggressive_hq2",
+  "scene_file": "results/amtown02_vo_amtown02_aggressive_hq2_35000/scene_aggressive_hq2_n35000_d2_sh3.ply",
   "iterations": 35000,
+  "checkpoint_interval": 5000,
   "camera_poses": 622,
-  "vertices": 1949324,
-  "size_mb": 193.34
+  "vertices": 1899228,
+  "size_mb": 449.19,
+  "key_opensplat_flags": "-d 2 --num-downscales 1 --resolution-schedule 1000 --sh-degree 3 --sh-degree-interval 750 --refine-every 50 --warmup-length 300 --densify-grad-thresh 0.00015 -s 5000"
 }
 ```
 
 ---
 
-## 📈 Iteration Comparison Used In The Report
+## 📈 VO Iteration Sweep (Conservative Profile)
 
-The updated report should compare the following corrected AMtown02 reruns:
+All runs below use `colmap_from_vo_amtown02` with:
 
-| Version | Scene File | Iterations | Camera Poses | Vertices | Size (MB) |
-|--------|------------|-----------:|-------------:|---------:|----------:|
+`-d 3 --num-downscales 4 --resolution-schedule 1200 --sh-degree 1`
+
+| Version | Scene file | Iterations | Cameras | Vertices | Size (MB) |
+|---------|------------|-----------:|--------:|---------:|----------:|
 | V0 | `results/amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply` | 500 | 622 | 50000 | 4.96 |
 | V1 | `results/amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply` | 10000 | 622 | 1296361 | 128.58 |
 | V2 | `results/amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply` | 20000 | 622 | 1338941 | 132.80 |
@@ -52,71 +70,64 @@ The updated report should compare the following corrected AMtown02 reruns:
 | V4 | `results/amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply` | 35000 | 622 | 1949324 | 193.34 |
 | V5 | `results/amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply` | 40000 | 622 | 1807727 | 179.29 |
 
-Use `V4` as the final selected version in repository-facing documentation.
+Use **V6 (aggressive HQ2)** as the repository-facing final VO deliverable; keep **V4** for lightweight browser demos.
 
 ---
 
-## 📊 Quantitative Trend Analysis
+## 🚀 VO Aggressive HQ2 Final (V6)
 
-The corrected AMtown02 reruns show that viewer-friendly quality is not strictly monotonic with iteration count.
+| Field | Value |
+|-------|-------|
+| Scene file | `results/amtown02_vo_amtown02_aggressive_hq2_35000/scene_aggressive_hq2_n35000_d2_sh3.ply` |
+| Profile | Aggressive HQ2 (see JSON `key_opensplat_flags` above) |
+| Purpose | Higher-frequency detail and stronger SH expressivity than the conservative line |
 
-| Transition | Vertex Gain | Size Gain | Interpretation |
-|--------|------------:|----------:|----------------|
-| `500 -> 10000` | 1246361 | 123.62 MB | The corrected AMtown02 rerun quickly becomes dense after the initial smoke-test run. |
-| `10000 -> 20000` | 42580 | 4.22 MB | A small gain, suggesting limited benefit from doubling this interval. |
-| `20000 -> 30000` | 583806 | 57.90 MB | The first major density jump among the corrected reruns. |
-| `30000 -> 35000` | 26577 | 2.64 MB | A modest but positive gain that makes `35000` the strongest corrected rerun selected for reporting. |
-| `35000 -> 40000` | -141597 | -14.05 MB | The raw file remains valid, but the result becomes less suitable for PlayCanvas viewing. |
-
-Two patterns are important here:
-
-- The input stays fixed at **622 camera poses**, so the change still comes from optimization depth rather than extra viewpoints.
-- The longest rerun is not automatically the best presentation artifact once browser-viewer compatibility is considered.
+**Superseded attempt:** matching aggressive knobs with `-d 1` was **killed during image preload** on WSL (memory pressure). The documented recipe therefore uses `-d 2`.
 
 ---
 
-## 💡 How to interpret the results
+## 🧪 **V7** — Changed COLMAP input (Aggressive HQ2)
 
-### VO-connected reconstruction result progression
+Same OpenSplat **aggressive HQ2** flag block as **V6** (“次激进” VO recipe: e.g. `-n 35000 -d 2`, `--num-downscales 1`, `--resolution-schedule 1000`, `--sh-degree 3`, `-s 5000`), but OpenSplat reads **`baseline/colmap_from_amtown02`** instead of `colmap_from_vo_amtown02`. **The experimental variable is the COLMAP model** (which cameras and sparse points initialize training). **方案 B** = this baseline-COLMAP HQ2 run for comparison.
 
-- All updated comparison runs use the same `colmap_from_vo_amtown02` input with 622 camera poses.
-- The main variable is the total number of OpenSplat iterations.
-- `35000` is the selected corrected rerun for GitHub presentation and PlayCanvas viewing.
-- `40000` remains a valid raw artifact, but can appear blank in PlayCanvas because of a few extreme splat scales.
+| Field | Value |
+|-------|-------|
+| Label | **V7** |
+| Input | `baseline/colmap_from_amtown02` |
+| Scene file | `results/amtown02_colmap_baseline_hq2_35000/scene_colmap_baseline_hq2_n35000_d2_sh3.ply` |
+| Checkpoints | Same directory: `*_5000.ply`, `*_10000.ply`, … |
+| Cameras | 292 (this snapshot) |
+| Vertices | 2663956 |
+| Size (MB) | 630.06 |
 
-### Result interpretation
-
-- The selected `35000`-iteration result is the best **VO-connected** reconstruction produced under the corrected AMtown02 input for repository-facing presentation.
-- Its main strength is local density growth across the same fixed set of camera poses.
-- Its main limitation is that missing viewpoints in the VO input cannot be recovered purely by running more iterations.
-- This is why the report now separates "raw longest rerun" from "best browser-visible rerun".
+**Not the VO final:** keep **V6** as the VO-connected deliverable. If your local “increased input” build has **>622** `images.bin` entries, still file it under **V7** semantics and refresh the table.
 
 ---
 
-## 🛑 Why The Updated Report Prefers 35000
+## 📊 Quantitative notes (conservative line)
 
-The corrected reruns keep `40000` as a raw experiment artifact, but use `35000` as the main report result for three practical reasons:
-
-- `35000` is the strongest rerun now selected for repository-facing reporting.
-- `40000` completes successfully, but its viewer behavior is less reliable because of a few very large splat scales.
-- `35000` preserves the higher density gain over `30000` without adopting `40000` as the default presentation artifact.
+Vertex counts are **not strictly monotonic** after ~35000 because pruning and splat scale edits remove unstable Gaussians even as photometric loss keeps improving. This is why V5 can shrink relative to V4 while still finishing successfully.
 
 ---
 
 ## 🔢 Lightweight summaries
 
-This module generates two lightweight summary files:
+This module generates:
 
 - `results/RESULT_SUMMARY.md`
 - `results/reconstruction_summary.json`
 
-These files are recommended for GitHub uploads because they preserve key metrics without committing large binary scene files.
+Regenerate with:
+
+```bash
+python3 ./scripts/summarize_results.py
+```
 
 ---
 
 ## 📂 Repository Result Files
 
-The following lightweight files are intended to stay in the repository:
+Keep these under version control:
 
 - `results/RESULT_SUMMARY.md`
 - `results/reconstruction_summary.json`
@@ -126,6 +137,4 @@ The following lightweight files are intended to stay in the repository:
 
 ## 📄 Submission Template
 
-Use:
-
-- `final_candidate/submission_template.json`
+Use `final_candidate/submission_template.json` (includes labeled **V0–V7**; **V7** is the changed-input aggressive HQ2 run).

@@ -15,6 +15,8 @@ CORRECTED_RESULT_PREFIXES = {
     "amtown02_vo_amtown02_30000",
     "amtown02_vo_amtown02_35000",
     "amtown02_vo_amtown02_40000",
+    "amtown02_vo_amtown02_aggressive_hq2_35000",
+    "amtown02_colmap_baseline_hq2_35000",
 }
 
 
@@ -57,6 +59,8 @@ def collect_summary(results_dir: Path) -> dict:
         if path.suffix.lower() not in {".ply", ".splat"}:
             continue
         if not should_include_path(results_dir, path):
+            continue
+        if _is_intermediate_checkpoint_ply(path):
             continue
         outputs.append(read_output_metadata(results_dir, path))
 
@@ -170,20 +174,29 @@ def write_markdown(summary: dict, output_path: Path) -> None:
             "",
             "## Recommended Files For Presentation",
             "",
-            "- `amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply`: the selected corrected AMtown02 rerun for GitHub-facing presentation.",
-            "- `amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply`: a viewer-friendly corrected rerun kept for side-by-side comparison.",
-            "- `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`: the raw longest corrected rerun kept for comparison and debugging.",
-            "- `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply`: the smoke-test rerun proving that the corrected AMtown02 input is wired correctly.",
+            "- `amtown02_vo_amtown02_aggressive_hq2_35000/scene_aggressive_hq2_n35000_d2_sh3.ply`: the selected VO-connected AMtown02 result (aggressive HQ2 OpenSplat profile).",
+            "- `amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply`: the best conservative-profile rerun for browser viewing and size tradeoffs.",
+            "- `amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply`: the longest conservative rerun (viewer compatibility varies).",
+            "- `amtown02_colmap_baseline_hq2_35000/scene_colmap_baseline_hq2_n35000_d2_sh3.ply`: **V7** — aggressive HQ2 with **changed** COLMAP input (`colmap_from_amtown02`, **292** registered cameras in this snapshot).",
+            "- `amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply`: smoke test for wiring and CUDA.",
             "",
             "## Notes",
             "",
-            "- This summary lists the corrected reruns generated from `baseline/colmap_from_vo_amtown02`.",
-            "- The GitHub-facing result line for this module is `safe -> 10000 -> 20000 -> 30000 -> 35000 -> 40000`.",
+            "- Conservative VO reruns use `baseline/colmap_from_vo_amtown02` with the stable low-SH / heavy-downscale preset.",
+            "- Aggressive HQ2 uses the **same** `colmap_from_vo_amtown02` registration (**622** cameras) as the conservative line; only OpenSplat hyperparameters differ.",
+            "- FAQ: OpenSplat only consumes cameras in `images.bin`; extra PNG files on disk are ignored until registered in COLMAP (this is not what changed between conservative and aggressive VO runs).",
         ]
     )
 
     with output_path.open("w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")
+
+
+def _is_intermediate_checkpoint_ply(path: Path) -> bool:
+    """True for OpenSplat periodic saves like *_5000.ply (not the final scene file)."""
+    if path.suffix.lower() != ".ply":
+        return False
+    return bool(re.fullmatch(r".+_\d{4,}\.ply", path.name))
 
 
 if __name__ == "__main__":

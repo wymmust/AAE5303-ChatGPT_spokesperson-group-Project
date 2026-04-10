@@ -18,6 +18,20 @@ Our group repo is organized accordingly, and this module focuses on the **3D rec
 - **wymmust** — 3D Reconstruction (this module)
 - **taiwanhaitong** — Semantic Segmentation
 
+## Layout on GitHub
+
+The group repository only tracks **documentation and lightweight metadata** under `modules/reconstruction/`, in the same structure as on the GitHub tree (alphabetical folders after this file):
+
+| Path | Contents |
+|------|----------|
+| `README.md` | This overview |
+| `docs/` | `RECONSTRUCTION_SUBMISSION_GUIDE.md`, `OPENSPLAT_TIPS.md` |
+| `final_candidate/` | `submission_template.json`, preview `*.png` |
+| `results/` | `RESULT_SUMMARY.md`, `baseline_report.json`, `reconstruction_summary.json` |
+| `scripts/` | `run_opensplat.sh`, `summarize_results.py` |
+
+**Not in Git:** COLMAP `baseline/` exports, OpenSplat source/build trees, `.ply` / `.splat` scenes, and per-run `cameras.json` (see root `.gitignore`). Place those locally next to this module when reproducing training.
+
 ## Objective
 
 The goal of this module is to run and tune an OpenSplat-based reconstruction pipeline on a selected UAV sequence, generate 3D Gaussian scene outputs from COLMAP-format inputs, sweep iteration counts with a **conservative** training profile, then add an **aggressive HQ2** OpenSplat profile for the final VO-connected deliverable. **V6 (aggressive HQ2 on `colmap_from_vo_amtown02`) changed only OpenSplat hyperparameters** relative to V0–V5; it reused the **same** VO COLMAP project and **622** registered cameras. **V7** documents an additional aggressive HQ2 run that **changes the COLMAP input** (this snapshot: `colmap_from_amtown02`). A FAQ below explains why extra PNG files on disk still do not train more cameras unless COLMAP registration is extended.

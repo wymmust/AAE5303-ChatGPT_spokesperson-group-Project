@@ -54,6 +54,12 @@ def parse_args() -> argparse.Namespace:
 
 
 def collect_summary(results_dir: Path) -> dict:
+    results_dir = results_dir.resolve()
+    module_root = Path(__file__).resolve().parents[1]
+    try:
+        results_dir_display = str(results_dir.relative_to(module_root))
+    except ValueError:
+        results_dir_display = str(results_dir)
     outputs = []
     for path in sorted(results_dir.rglob("*")):
         if path.suffix.lower() not in {".ply", ".splat"}:
@@ -71,7 +77,7 @@ def collect_summary(results_dir: Path) -> dict:
         cameras[str(path.relative_to(results_dir))] = count_cameras(path)
 
     return {
-        "results_dir": str(results_dir),
+        "results_dir": results_dir_display,
         "output_count": len(outputs),
         "outputs": outputs,
         "camera_sets": cameras,

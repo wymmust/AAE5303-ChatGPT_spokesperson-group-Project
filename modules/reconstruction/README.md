@@ -79,35 +79,24 @@ We use **OpenSplat** as the 3D Gaussian scene reconstruction backend.
 
 ---
 
-## Folder Structure
+## Folder structure
+
+**Tracked on Git** (matches the tree under `modules/reconstruction/` on GitHub): see [Layout on GitHub](#layout-on-github) above.
+
+**Typical local checkout** (large assets and builds are gitignored; create them beside the tracked tree):
 
 ```text
-reconstruction/
-├── README.md
-├── docs/
-│   ├── RECONSTRUCTION_SUBMISSION_GUIDE.md
-│   └── OPENSPLAT_TIPS.md
-├── scripts/
-│   ├── run_opensplat.sh
-│   └── summarize_results.py
-├── final_candidate/
-│   ├── submission_template.json
-│   └── figures/
-├── results/
-│   ├── RESULT_SUMMARY.md
-│   ├── reconstruction_summary.json
-│   ├── baseline_report.json
-│   ├── amtown02_vo_amtown02_safe/scene_gpu_safe_n500_d3.ply
-│   ├── amtown02_vo_amtown02_10000/scene_gpu_safe_n10000_d3.ply
-│   ├── amtown02_vo_amtown02_20000/scene_gpu_safe_n20000_d3.ply
-│   ├── amtown02_vo_amtown02_30000/scene_gpu_safe_n30000_d3.ply
-│   ├── amtown02_vo_amtown02_35000/scene_gpu_safe_n35000_d3.ply
-│   ├── amtown02_vo_amtown02_40000/scene_gpu_safe_n40000_d3.ply
-│   ├── amtown02_vo_amtown02_aggressive_hq2_35000/scene_aggressive_hq2_n35000_d2_sh3.ply
-│   └── amtown02_colmap_baseline_hq2_35000/scene_colmap_baseline_hq2_n35000_d2_sh3.ply
-├── baseline/
-└── third_party/
+modules/reconstruction/
+├── README.md, docs/, scripts/, final_candidate/, results/   ← as in Git
+├── baseline/                    ← COLMAP projects (local only)
+├── opensplat_cpu_src/           ← OpenSplat build tree (local only)
+├── third_party/                 ← optional local cmake shims (local only)
+└── results/
+    ├── RESULT_SUMMARY.md, *.json
+    └── amtown02_*/                ← per-run folders: .ply, cameras.json, checkpoints (local)
 ```
+
+After training, rerun `./scripts/summarize_results.py` so `RESULT_SUMMARY.md` and `reconstruction_summary.json` reflect files on disk.
 
 ---
 
@@ -141,6 +130,8 @@ From this module directory:
 All VO-connected reconstruction lines start from `baseline/colmap_from_vo_amtown02`.
 
 **Conservative profile (V0-V5, PlayCanvas-friendly, smaller files):**
+
+The `LD_LIBRARY_PATH` / `LD_PRELOAD` lines below match **one WSL2 + LibTorch CUDA layout**; replace with your own library paths if different.
 
 ```bash
 export LD_LIBRARY_PATH="/usr/lib/wsl/lib:/home/wym/libtorch-cu118-cxx11/lib:${LD_LIBRARY_PATH:-}"

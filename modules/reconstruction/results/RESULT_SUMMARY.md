@@ -1,7 +1,7 @@
 # Reconstruction Result Summary
 
 - Total outputs: 8
-- Results directory: `/home/wym/AAE5303-ChatGPT_spokesperson-group-Project/modules/reconstruction/results`
+- Results directory: `results`
 
 ## Outputs
 
